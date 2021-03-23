@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider           = "typegraphql-prisma"
+  output             = "./generated/type-graphql"
+  emitTranspiledCode = "true"
+  emitSchemaFile     = "true"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique @db.VarChar(50)
+  description String?   @db.VarChar(255)
+  thumbnail   String?   @db.VarChar(255)
+  parent_id   Int?
+  is_active   Boolean   @default(true)
+  inserted_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
